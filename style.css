@@ -1,0 +1,399 @@
+/* =====================================================================
+   경복궁 문화유산 탐방 앱 · STEP 03 (v3.0)
+   테마: 경복궁 야경 — 밤하늘 남색 + 처마 조명의 금빛 + 단청 주홍
+   index_v3.0_STEP03.html 에서 jQuery Mobile CSS 다음에 불러옵니다.
+   ===================================================================== */
+
+:root {
+  --night-bg:       #0b1120;   /* 서울 밤하늘 */
+  --night-surface:  #141d33;   /* 카드·패널 */
+  --night-elevated: #1d2947;   /* 눌림·펼침 */
+  --gold:           #e3b55a;   /* 처마 조명 금빛 */
+  --gold-deep:      #b8892e;   /* 버튼 아래쪽 금빛 */
+  --gold-soft:      rgba(227, 181, 90, .14);
+  --line:           rgba(227, 181, 90, .26);
+  --dancheong:      #c8553d;   /* 단청 주홍 포인트 */
+  --ink:            #f2ede3;   /* 달빛 아이보리 글자 */
+  --muted:          #9ba7bf;   /* 보조 글자 */
+}
+
+/* ---------- 공통 배경 / 글꼴 ---------- */
+body,
+.ui-page,
+.ui-page-theme-a,
+.ui-page-theme-a .ui-content {
+  background: radial-gradient(circle at 50% -10%, #1c2a4d 0%, var(--night-bg) 60%) fixed;
+  color: var(--ink);
+  text-shadow: none;
+}
+.ui-page-theme-a,
+.ui-page-theme-a .ui-btn,
+.ui-page-theme-a input,
+.ui-page-theme-a button {
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  text-shadow: none;
+}
+
+/* ---------- 헤더 ---------- */
+.ui-page .app-header.ui-header {
+  background: rgba(8, 12, 24, .96);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .5);
+}
+.ui-page .app-header .ui-title {
+  color: var(--ink);
+  font-size: 1.15em;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-shadow: 0 0 12px rgba(227, 181, 90, .35);
+}
+/* 버튼이 없는 홈 헤더는 제목이 잘리지 않도록 여백을 줄임 */
+#home .app-header .ui-title { margin: 0 1em; }
+.ui-page .app-header .ui-btn,
+.ui-page .app-header .ui-btn:hover {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--gold);
+}
+.ui-page .app-header .ui-btn.ui-btn-icon-notext { background-color: rgba(227, 181, 90, .15); }
+.app-header .header-home.ui-btn,
+.app-header .header-home.ui-btn:hover {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  color: var(--gold);
+  font-size: .75em;
+  font-weight: 700;
+}
+
+/* ---------- 홈: 대표 이미지 ---------- */
+.hero {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .55);
+}
+.hero svg { display: block; width: 100%; height: auto; }
+.hero img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  filter: brightness(.8) saturate(.9);   /* 밤 분위기로 살짝 어둡게 */
+}
+.hero-caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 2.6em 1.1em .9em;
+  background: linear-gradient(transparent, rgba(7, 11, 22, .92));
+  color: #fff;
+}
+.hero-caption h2 { margin: 0; font-size: 1.15em; color: var(--gold); text-shadow: 0 2px 10px rgba(0,0,0,.7); }
+.hero-caption p  { margin: .25em 0 0; font-size: .78em; opacity: .9; }
+
+.guide-text { color: var(--muted); font-size: .85em; line-height: 1.7; }
+
+/* ---------- 홈: 메뉴 / 단계 카드 ---------- */
+.menu.ui-listview-inset {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+.menu.ui-listview > li > a.ui-btn {
+  background: var(--night-surface);
+  border-color: var(--line);
+  color: var(--ink);
+  font-weight: 700;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  transition: background .2s ease, color .2s ease;
+}
+.menu.ui-listview > li > a.ui-btn:hover,
+.menu.ui-listview > li > a.ui-btn:focus {
+  background: var(--night-elevated);
+  color: var(--gold);
+}
+.menu.ui-listview > li > a.ui-btn:after { background-color: rgba(227, 181, 90, .35); }
+
+.step-card {
+  background: var(--night-surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1em 1.1em 1.1em;
+  margin-top: 1em;
+}
+.step-badge {
+  display: inline-block;
+  background: var(--gold-soft);
+  border: 1px solid rgba(227, 181, 90, .5);
+  color: var(--gold);
+  font-size: .72em;
+  font-weight: 700;
+  letter-spacing: .05em;
+  padding: .2em .8em;
+  border-radius: 999px;
+}
+.step-card p { color: var(--muted); font-size: .82em; margin: .9em 0 0; }
+
+/* ---------- 공통 버튼 (홈으로 돌아가기 등) ---------- */
+.ui-page-theme-a .ui-content > a.ui-btn {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  color: var(--gold);
+  font-weight: 700;
+}
+.ui-page-theme-a .ui-content > a.ui-btn:hover { background: rgba(227, 181, 90, .25); }
+.ui-page-theme-a .ui-content > a.ui-btn:after { background-color: transparent; }
+
+/* ---------- 소개 화면 ---------- */
+.intro-lead { color: var(--muted); font-size: .86em; line-height: 1.7; }
+
+.ui-collapsible-set .ui-collapsible { margin-bottom: .6em; }
+.ui-collapsible-set .ui-collapsible-heading-toggle,
+.ui-collapsible-set .ui-collapsible-heading-toggle:hover {
+  background: var(--night-surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 700;
+}
+.ui-collapsible-set .ui-collapsible:not(.ui-collapsible-collapsed) > .ui-collapsible-heading .ui-collapsible-heading-toggle {
+  background: var(--night-elevated);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.ui-collapsible-set .ui-collapsible-heading-toggle:after { background-color: rgba(227, 181, 90, .4); }
+.ui-collapsible-set .ui-collapsible-content {
+  background: rgba(15, 22, 40, .92);
+  border-color: var(--line);
+  color: var(--ink);
+}
+.ui-collapsible-content p,
+.ui-collapsible-content li { font-size: .9em; line-height: 1.75; }
+.ui-collapsible-content ul { padding-left: 1.2em; margin: .4em 0; }
+.building dt { font-weight: 700; color: var(--gold); margin-top: .8em; }
+.building dd { margin: .2em 0 0; font-size: .9em; line-height: 1.65; color: #d6d2c8; }
+
+/* ---------- 영상 / 음악 화면 ---------- */
+.page-title {
+  margin: .3em 0 .7em;
+  text-align: center;
+  font-size: 1.4em;
+  color: var(--gold);
+  text-shadow: 0 0 14px rgba(227, 181, 90, .3);
+}
+.note-box {
+  margin: 0 0 1em;
+  padding: .8em 1em;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  background: var(--gold-soft);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: .95em;
+}
+.section-label { margin: 1.3em 0 .5em; font-size: .95em; font-weight: 700; color: var(--gold); }
+.video-wrap {
+  position: relative;
+  padding-top: 56.25%;          /* 16:9 비율 유지 */
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #000;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .45);
+}
+.video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+video.local-video {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #000;
+}
+audio { display: block; width: 100%; margin: 0 0 1em; color-scheme: dark; }
+.cover {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+}
+.caption { margin: .8em 0 1em; font-size: .8em; line-height: 1.6; color: var(--muted); }
+.help-link {
+  display: inline-block;
+  margin-top: .6em;
+  font-size: .85em;
+  color: var(--gold) !important;
+  text-underline-offset: 3px;
+}
+
+/* 이전·다음 버튼: 금빛 그라데이션 */
+.nav-row { display: flex; gap: .6em; margin-top: 1em; }
+.nav-row .ui-btn,
+.nav-row .ui-btn:visited {
+  flex: 1;
+  margin: 0;
+  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-deep) 100%);
+  border: 0;
+  border-radius: 8px;
+  color: #0b1120;
+  text-shadow: none;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(227, 181, 90, .25);
+}
+.nav-row .ui-btn:hover,
+.nav-row .ui-btn:focus {
+  background: linear-gradient(180deg, #f0c873 0%, var(--gold) 100%);
+  color: #0b1120;
+}
+
+/* 안내 다이얼로그 */
+#media-help .ui-dialog-contain > .ui-content,
+#media-help .ui-content {
+  background: var(--night-surface);
+  color: var(--ink);
+}
+#media-help .ui-content li { font-size: .9em; line-height: 1.75; margin-bottom: .35em; }
+#media-help .ui-content .ui-btn {
+  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-deep) 100%);
+  border: 0;
+  border-radius: 8px;
+  color: #0b1120;
+  font-weight: 800;
+}
+
+/* ---------- 사진 갤러리 ---------- */
+.gallery-lead { margin: .3em 0 1em; font-size: .84em; line-height: 1.6; color: var(--muted); }
+
+/* 2열 반응형 그리드: 넓은 화면에서는 3열·4열 */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .7em;
+  max-width: 960px;
+  margin: 0 auto;
+}
+@media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .gallery-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.gallery-item,
+.gallery-item:visited,
+.gallery-item:hover {
+  display: block;
+  overflow: hidden;
+  background: var(--night-surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  text-decoration: none;
+  text-shadow: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.gallery-thumb { display: block; overflow: hidden; aspect-ratio: 4 / 3; background: #1b2948; }
+.gallery-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* 비율을 유지하며 칸을 꽉 채움 */
+  filter: brightness(.88);
+  transition: transform .35s ease, filter .35s ease;
+}
+.gallery-caption { display: block; padding: .65em .8em; font-size: .8em; font-weight: 700; }
+
+/* 이미지 hover 효과: 처마에 불이 켜지듯 금빛으로 밝아짐 */
+@media (hover: hover) {
+  .gallery-item:hover { border-color: var(--gold); box-shadow: 0 0 18px rgba(227, 181, 90, .28); }
+  .gallery-item:hover .gallery-thumb img { transform: scale(1.08); filter: brightness(1.08); }
+  .gallery-item:hover .gallery-caption { color: var(--gold); background: var(--night-elevated); }
+}
+.gallery-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .gallery-thumb img, .gallery-item { transition: none; }
+  .gallery-item:hover .gallery-thumb img { transform: none; }
+}
+
+/* 확대 팝업 */
+#galleryPopup {
+  max-width: 92vw;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #10182b;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .75);
+}
+#galleryPopup .popup-body { padding: 2.8em .8em 1em; text-align: center; }
+#galleryPopup .popup-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;            /* 원본 이미지 전체가 보이도록 */
+  border-radius: 8px;
+  background: #080d18;
+}
+#galleryPopup .popup-title { margin: .8em 0 0; font-size: 1.1em; font-weight: 700; color: var(--gold); }
+
+/* =====================================================================
+   푸터: 광화문 야경 사진 + 금빛 처마 실루엣
+   - 배경 사진: imges/scene-01.jpg (광화문 야경)
+   - ::before : 궁궐 지붕선 모양의 금빛 SVG 장식
+   - ::after  : 아래쪽 단청 색 띠
+   ===================================================================== */
+.ui-page .app-footer.ui-footer {
+  position: relative;
+  overflow: hidden;
+  margin-top: 2em;
+  padding: 4.2em 1em 1.6em;
+  border: 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(11, 17, 32, .96) 0%, rgba(11, 17, 32, .55) 45%, rgba(8, 12, 24, .92) 100%),
+    url("imges/scene-01.jpg") center 62% / cover no-repeat,
+    #080d18;
+}
+.ui-page .app-footer.ui-footer::before {
+  content: "";
+  position: absolute;
+  top: .9em;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  /* 보름달: 사진 위 밤하늘에 뜬 달 */
+  background: radial-gradient(circle at 40% 40%, #fff7dc 0%, #f3dc9a 45%, rgba(227, 181, 90, .0) 72%);
+  filter: drop-shadow(0 0 10px rgba(243, 220, 154, .7));
+}
+.ui-page .app-footer.ui-footer::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--dancheong) 0 25%, #3f8f6f 25% 50%, var(--gold) 50% 75%, #2f5d9a 75% 100%);
+  opacity: .85;
+}
+.ui-page .app-footer h4 {
+  position: relative;
+  margin: 0;
+  font-size: .82em;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--ink);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .9);
+  white-space: normal;
+}
+.ui-page .app-footer h4::after {
+  content: "景福宮 · 夜";
+  display: block;
+  margin-top: .45em;
+  font-size: .9em;
+  font-weight: 400;
+  letter-spacing: .35em;
+  color: var(--gold);
+}

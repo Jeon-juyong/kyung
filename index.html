@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>경복궁 문화유산 탐방 앱 · STEP 03 (v3.0)</title>
+
+  <!-- jQuery Mobile 1.4.5 CSS -->
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <!-- jQuery 1.11.1 → jQuery Mobile 1.4.5 순서로 로드 -->
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <!-- 앱 스타일: style.css (jQuery Mobile CSS 다음에 로드해야 덮어쓰기 가능) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ======================= 홈 화면 ======================= -->
+<div data-role="page" id="home">
+
+  <div data-role="header" class="app-header">
+    <h1>경복궁 문화유산 탐방 앱</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <!-- 대표 이미지 (교육용 일러스트 JPG) -->
+    <div class="hero">
+      <img src="assets/scene-01.jpg" alt="광화문 교육용 일러스트">
+      <div class="hero-caption">
+        <h2>서울의 궁궐, 모바일로 탐방하기</h2>
+        <p>이미지·영상·오디오는 경복궁을 위한 콘텐츠 입니다.</p>
+      </div>
+    </div>
+
+    <p class="guide-text">
+      목록에서 탐방할 콘텐츠를 선택하세요.
+    </p>
+
+    <!-- 메뉴: 소개 화면으로 이동 -->
+    <ul data-role="listview" data-inset="true" class="menu">
+      <li><a href="#intro" data-transition="slide">궁궐 소개</a></li>
+      <li><a href="#movie" data-transition="slide">경복궁 영상</a></li>
+      <li><a href="#music1" data-transition="slide">경복궁 음악 1</a></li>
+      <li><a href="#music2" data-transition="slide">경복궁 음악 2</a></li>
+      <li><a href="#gallery" data-transition="slide">경복궁 갤러리</a></li>
+    </ul>
+
+    <!-- <div class="step-card">
+      <span class="step-badge">STEP 01</span>
+      <p>홈 화면 · 궁궐 설명 · 접이식 정보를 직접 구현합니다.</p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-badge">STEP 02</span>
+      <p>외부 영상(iframe) · 로컬 MP4 · MP3 오디오 페이지 2개와 미디어 정지 로직을 추가합니다.</p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-badge">STEP 03</span>
+      <p>12장 사진 갤러리와 확대 팝업으로 앱을 완성합니다.</p>
+    </div> -->
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+
+<!-- ======================= 소개 화면 ======================= -->
+<div data-role="page" id="intro">
+
+  <div data-role="header" class="app-header">
+    <a href="#home" data-rel="back" data-icon="back" data-iconpos="notext"
+       data-transition="slide" data-direction="reverse">뒤로</a>
+    <h1>궁궐 소개</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <p class="intro-lead">
+      경복궁은 조선 왕조의 첫 번째 법궁(정궁)입니다. 항목을 눌러 자세한 내용을 펼쳐 보세요.
+    </p>
+
+    <div data-role="collapsible-set" data-inset="true"
+         data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+
+      <!-- 역사 -->
+      <div data-role="collapsible" data-collapsed="false">
+        <h3>역사</h3>
+        <p>
+          경복궁은 1395년(태조 4년) 조선을 세운 태조 이성계가 한양으로 도읍을 옮기며 지은 정궁입니다.
+          '경복(景福)'은 "큰 복을 누리라"는 뜻으로, 정도전이 지은 이름입니다.
+        </p>
+        <ul>
+          <li>1395년 — 창건, 조선의 법궁이 됨</li>
+          <li>1592년 — 임진왜란으로 소실되어 오랫동안 폐허로 남음</li>
+          <li>1867년 — 고종 때 흥선대원군의 주도로 중건</li>
+          <li>일제강점기 — 많은 전각이 헐리고 조선총독부 청사가 세워짐</li>
+          <li>1990년 이후 — 복원 사업으로 옛 모습을 되찾는 중</li>
+        </ul>
+      </div>
+
+      <!-- 건축물 -->
+      <div data-role="collapsible">
+        <h3>건축물</h3>
+        <dl class="building">
+          <dt>광화문</dt>
+          <dd>경복궁의 정문으로, 세 개의 홍예문(아치형 문) 위에 문루가 올라앉아 있습니다.</dd>
+          <dt>근정전</dt>
+          <dd>국가의 큰 의식과 신하들의 조회가 열리던 정전입니다. 국보로 지정되어 있습니다.</dd>
+          <dt>사정전</dt>
+          <dd>임금이 평소 신하들과 나랏일을 의논하던 편전입니다.</dd>
+          <dt>강녕전 · 교태전</dt>
+          <dd>강녕전은 왕의 침전, 교태전은 왕비의 침전입니다.</dd>
+          <dt>경회루</dt>
+          <dd>연못 위에 세운 누각으로 외국 사신 접대와 연회에 쓰였습니다. 국보로 지정되어 있습니다.</dd>
+          <dt>향원정</dt>
+          <dd>궁궐 북쪽 연못 가운데 섬에 지은 육각형 정자입니다.</dd>
+          <dt>수정전</dt>
+          <dd>경복궁 수정전은 근정전 서쪽, 경회루 남쪽에 있는 전각으로 세종 때 집현전이 있던 자리입니다. 고종 때 다시 지었으며, 1894년 갑오개혁 때는 군국기무처가 사용했습니다. 보물로 지정되어 있습니다.</dd>
+        </dl>
+      </div>
+
+      <!-- 관람 예절 -->
+      <div data-role="collapsible">
+        <h3>관람 예절</h3>
+        <ul>
+          <li>전각의 기둥·벽·단청 등 문화유산을 손으로 만지거나 기대지 않습니다.</li>
+          <li>출입이 제한된 전각 내부나 울타리 안으로 들어가지 않습니다.</li>
+          <li>큰 소리로 떠들거나 뛰지 않고, 다른 관람객을 배려합니다.</li>
+          <li>지정된 장소 외에서는 음식을 먹지 않으며, 쓰레기는 되가져갑니다.</li>
+          <li>드론 비행·삼각대 사용 등은 현장 안내와 규정을 따릅니다.</li>
+          <li>해설사와 안내 직원의 안내에 협조합니다.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <a href="#home" class="ui-btn ui-corner-all ui-icon-home ui-btn-icon-left"
+       data-transition="slide" data-direction="reverse">홈으로 돌아가기</a>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+
+<!-- ======================= STEP 02: 영상 화면 ======================= -->
+<div data-role="page" id="movie">
+
+  <div data-role="header" class="app-header">
+    <a href="#home" data-icon="home" data-iconpos="notext"
+       data-transition="slide" data-direction="reverse">홈</a>
+    <h1>경복궁 영상</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <h2 class="page-title">경복궁 영상 탐방</h2>
+    <div class="note-box">유튜브 드론 영상과 로컬 음악 「메롱해치」</div>
+
+    <!-- 1) 외부 영상: 유튜브 iframe (enablejsapi=1 → JS로 일시정지 가능) -->
+    <p class="section-label">① 드론으로 본 경복궁 (YouTube)</p>
+    <div class="video-wrap">
+      <iframe id="ytPlayer"
+              src="https://www.youtube.com/embed/KF54KKt2oBE?enablejsapi=1&amp;rel=0"
+              title="[4K Drone] 경복궁의 낮과 밤 드론 영상"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+    <p class="caption">출처: 서울시 공식 유튜브 「[4K Drone ✈] 드론타고 조선투어, 눈부시게 아름다운 경복궁의 낮과 밤!」 · 인터넷 연결이 필요합니다.</p>
+
+    <!-- 2) 로컬 음악: audio 태그 (페이지 이동 시 pauseAllMedia()로 자동 정지) -->
+    <p class="section-label">② 안예은 - 메롱해치</p>
+    <audio id="haechiAudio" controls preload="metadata">
+      <source src="imges/HAECHI.mp3" type="audio/mpeg">
+      이 브라우저는 audio 태그를 지원하지 않습니다.
+    </audio>
+    <!-- 로컬 4K 드론 영상: 음악과 함께 재생되도록 음소거(muted)·반복(loop) -->
+    <!-- 파일명의 [ ] 와 공백은 URL 인코딩(%5B %5D %20)으로 적습니다 -->
+    <video id="droneVideo" class="local-video" controls muted loop playsinline preload="metadata">
+      <source src="assets/%5B4K%20Drone%5D%20GyeongBokGung%20Palace.mp4" type="video/mp4">
+      이 브라우저는 video 태그를 지원하지 않습니다.
+    </video>
+    <p class="caption">음악을 재생하면 경복궁 4K 드론 영상이 함께 재생됩니다. (로컬 MP3 · MP4 · 실습용)</p>
+
+    <!-- data-rel="dialog" : 안내 화면을 대화상자로 열기 -->
+    <a href="#media-help" data-rel="dialog" data-transition="pop" class="help-link">미디어 재생 안내 보기</a>
+
+    <div class="nav-row">
+      <a href="#home" class="ui-btn ui-corner-all"
+         data-transition="slide" data-direction="reverse">이전 · 홈</a>
+      <a href="#music1" class="ui-btn ui-corner-all" data-transition="slide">음악 듣기</a>
+    </div>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+
+<!-- ======================= STEP 02: 음악 1 ======================= -->
+<div data-role="page" id="music1">
+
+  <div data-role="header" class="app-header">
+    <a href="#home" data-icon="home" data-iconpos="notext"
+       data-transition="slide" data-direction="reverse">홈</a>
+    <h1>경복궁 음악 1</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <h2 class="page-title">궁궐 테마 음악 ①</h2>
+    <div class="note-box">교육용 연주곡 2곡</div>
+
+    <p class="section-label">♪ 멜로디 1</p>
+    <audio class="melody" controls preload="metadata">
+      <source src="assets/palace-melody-1.mp3" type="audio/mpeg">
+      이 브라우저는 audio 태그를 지원하지 않습니다.
+    </audio>
+
+    <p class="section-label">♪ 멜로디 2</p>
+    <audio class="melody" controls preload="metadata">
+      <source src="assets/palace-melody-2.mp3" type="audio/mpeg">
+      이 브라우저는 audio 태그를 지원하지 않습니다.
+    </audio>
+
+    <p class="caption">실습을 위해 생성한 짧은 창작 연주곡입니다. 전통 음악 원곡을 사용하지 않았습니다.</p>
+
+    <a href="#media-help" data-rel="dialog" data-transition="pop" class="help-link">미디어 재생 안내 보기</a>
+
+    <div class="nav-row">
+      <a href="#home" class="ui-btn ui-corner-all"
+         data-transition="slide" data-direction="reverse">이전 · 홈</a>
+      <a href="#music2" class="ui-btn ui-corner-all" data-transition="slide">다음 음악</a>
+    </div>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+
+<!-- ======================= STEP 02: 음악 2 ======================= -->
+<div data-role="page" id="music2">
+
+  <div data-role="header" class="app-header">
+    <a href="#home" data-icon="home" data-iconpos="notext"
+       data-transition="slide" data-direction="reverse">홈</a>
+    <h1>경복궁 음악 2</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <h2 class="page-title">궁궐 테마 음악 ②</h2>
+    <div class="note-box">두 번째 교육용 연주곡</div>
+
+    <audio controls preload="metadata">
+      <source src="assets/palace-melody-2.mp3" type="audio/mpeg">
+      이 브라우저는 audio 태그를 지원하지 않습니다.
+    </audio>
+
+    <img class="cover" src="assets/scene-09.jpg" alt="궁궐 테마 음악 2 표지 그림">
+    <p class="caption">실습을 위해 생성한 짧은 창작 연주곡입니다. 전통 음악 원곡을 사용하지 않았습니다.</p>
+
+    <a href="#media-help" data-rel="dialog" data-transition="pop" class="help-link">미디어 재생 안내 보기</a>
+
+    <div class="nav-row">
+      <a href="#music1" class="ui-btn ui-corner-all"
+         data-transition="slide" data-direction="reverse">이전 음악</a>
+      <a href="#home" class="ui-btn ui-corner-all"
+         data-transition="slide" data-direction="reverse">홈으로</a>
+    </div>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+
+<!-- ======================= STEP 03: 사진 갤러리 ======================= -->
+<div data-role="page" id="gallery">
+
+  <div data-role="header" class="app-header">
+    <a href="#home" class="header-home" data-transition="slide" data-direction="reverse">홈</a>
+    <h1>경복궁 갤러리</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <!-- <p class="gallery-lead">
+      경복궁 사진 12장을 2열로 배치합니다. 사진을 선택하면 팝업에서 큰 이미지로 확인할 수 있습니다.
+    </p> -->
+
+    <!-- 각 링크의 data-src / data-title 값을 팝업에 넘겨 줍니다 -->
+    <div class="gallery-grid">
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-01.jpg" data-title="01 · 광화문 야경">
+        <span class="gallery-thumb"><img src="imges/scene-01.jpg" alt="경복궁 광화문 야경 사진" loading="lazy"></span>
+        <span class="gallery-caption">01 · 광화문 야경</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-02.png" data-title="02 · 광화문 설경">
+        <span class="gallery-thumb"><img src="imges/scene-02.png" alt="경복궁 광화문 설경 사진" loading="lazy"></span>
+        <span class="gallery-caption">02 · 광화문 설경</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-03.jpg" data-title="03 · 광화문 흑백">
+        <span class="gallery-thumb"><img src="imges/scene-03.jpg" alt="경복궁 광화문 흑백 사진" loading="lazy"></span>
+        <span class="gallery-caption">03 · 광화문 흑백</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-04.jpg" data-title="04 · 흥례문">
+        <span class="gallery-thumb"><img src="imges/scene-04.jpg" alt="경복궁 흥례문 사진" loading="lazy"></span>
+        <span class="gallery-caption">04 · 흥례문</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-05.jpg" data-title="05 · 근정전">
+        <span class="gallery-thumb"><img src="imges/scene-05.jpg" alt="경복궁 근정전 사진" loading="lazy"></span>
+        <span class="gallery-caption">05 · 근정전</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-06.jpg" data-title="06 · 궁궐 전각">
+        <span class="gallery-thumb"><img src="imges/scene-06.jpg" alt="경복궁 궁궐 전각 사진" loading="lazy"></span>
+        <span class="gallery-caption">06 · 궁궐 전각</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-07.jpg" data-title="07 · 경회루">
+        <span class="gallery-thumb"><img src="imges/scene-07.jpg" alt="경복궁 경회루 사진" loading="lazy"></span>
+        <span class="gallery-caption">07 · 경회루</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-08.jpg" data-title="08 · 향원정">
+        <span class="gallery-thumb"><img src="imges/scene-08.jpg" alt="경복궁 향원정 사진" loading="lazy"></span>
+        <span class="gallery-caption">08 · 향원정</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-09.jpg" data-title="09 · 아미산 굴뚝">
+        <span class="gallery-thumb"><img src="imges/scene-09.jpg" alt="경복궁 아미산 굴뚝 사진" loading="lazy"></span>
+        <span class="gallery-caption">09 · 아미산 굴뚝</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-10.jpg" data-title="10 · 자경전 십장생 굴뚝">
+        <span class="gallery-thumb"><img src="imges/scene-10.jpg" alt="경복궁 자경전 십장생 굴뚝 사진" loading="lazy"></span>
+        <span class="gallery-caption">10 · 자경전 십장생 굴뚝</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-11.jpg" data-title="11 · 처마와 단청">
+        <span class="gallery-thumb"><img src="imges/scene-11.jpg" alt="경복궁 처마와 단청 사진" loading="lazy"></span>
+        <span class="gallery-caption">11 · 처마와 단청</span>
+      </a>
+      <a href="#galleryPopup" data-rel="popup" data-position-to="window" data-transition="pop" class="gallery-item photo-link" data-src="imges/scene-12.jpg" data-title="12 · 동십자각">
+        <span class="gallery-thumb"><img src="imges/scene-12.jpg" alt="경복궁 동십자각 사진" loading="lazy"></span>
+        <span class="gallery-caption">12 · 동십자각</span>
+      </a>
+    </div>
+
+    <!-- 확대 팝업: data-role="popup" (바깥 영역 클릭·닫기 버튼·ESC로 닫힘) -->
+    <div data-role="popup" id="galleryPopup" data-overlay-theme="b" data-dismissible="true">
+      <a href="#" data-rel="back" id="closePopup"
+         class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">닫기</a>
+      <div class="popup-body">
+        <img id="largePhoto" class="popup-img" src="" alt="">
+        <p id="largeTitle" class="popup-title"></p>
+      </div>
+    </div>
+
+    <a href="#home" class="ui-btn ui-corner-all ui-icon-home ui-btn-icon-left"
+       data-transition="slide" data-direction="reverse">홈으로 돌아가기</a>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방</h4>
+  </div>
+</div>
+
+
+<!-- ======================= 미디어 안내 (dialog) ======================= -->
+<div data-role="page" id="media-help" data-dialog="true" data-close-btn="right">
+
+  <div data-role="header" class="app-header">
+    <h1>미디어 재생 안내</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+    <ul>
+      <li>유튜브 영상은 인터넷 연결이 필요합니다.</li>
+      <li>MP4·MP3 파일은 assets 폴더에 있어 오프라인에서도 재생됩니다.</li>
+      <li>다른 화면으로 이동하면 재생 중인 영상·음악이 자동으로 일시정지됩니다.</li>
+      <li>모바일에서는 재생 버튼을 직접 눌러야 소리가 납니다.</li>
+    </ul>
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all">확인</a>
+  </div>
+</div>
+
+
+<script>
+  /* 페이지가 바뀔 때 재생 중인 미디어를 모두 일시정지 */
+  function pauseAllMedia() {
+    // 1) HTML5 video / audio → pause()
+    $('video, audio').each(function () {
+      if (!this.paused) this.pause();
+    });
+    // 2) 유튜브 iframe → postMessage로 pauseVideo 명령 전달 (enablejsapi=1 필요)
+    $('#ytPlayer').each(function () {
+      if (this.contentWindow) {
+        this.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
+      }
+    });
+  }
+
+  // jQuery Mobile: 현재 페이지가 숨겨지기 직전에 실행
+  $(document).on('pagebeforehide', '[data-role="page"]', pauseAllMedia);
+
+  // 음악 1 화면: 한 곡을 재생하면 다른 곡은 일시정지 (두 곡이 겹치지 않도록)
+  $('audio.melody').on('play', function () {
+    $('audio.melody').not(this).each(function () { this.pause(); });
+  });
+
+  // 메롱해치 음악을 재생·정지하면 드론 영상도 같이 재생·정지
+  $('#haechiAudio').on('play', function () {
+    var v = document.getElementById('droneVideo');
+    v.play().catch(function () {});   // 자동재생이 막혀도 오류 없이 넘어감
+  }).on('pause', function () {
+    document.getElementById('droneVideo').pause();
+  });
+
+  /* ---------- STEP 03: 갤러리 팝업 ---------- */
+  // jQuery 이벤트 위임: document 하나에 이벤트를 걸고 .photo-link 클릭을 처리
+  //  → 나중에 사진을 추가해도 별도 바인딩 없이 동작합니다.
+  $(document).on('click', '.photo-link', function () {
+    var $link = $(this);
+    var src   = $link.data('src');
+    var title = $link.data('title');
+
+    $('#largePhoto').attr({ src: src, alt: title + ' 확대 이미지' });
+    $('#largeTitle').text(title);
+    // 팝업 열기는 링크의 data-rel="popup"이 처리합니다.
+  });
+
+  // 큰 이미지가 다 읽힌 뒤 크기가 바뀌므로 화면 가운데로 다시 배치
+  // (load 이벤트는 버블링되지 않아 위임 대신 이미지 요소에 직접 연결)
+  $('#largePhoto').on('load', function () {
+    if ($('#galleryPopup').parent().hasClass('ui-popup-active')) {
+      $('#galleryPopup').popup('reposition', { positionTo: 'window' });
+    }
+  });
+
+  // 팝업이 닫히면 이미지 비우기 (다음 사진을 열 때 이전 사진이 잠깐 보이지 않도록)
+  $(document).on('popupafterclose', '#galleryPopup', function () {
+    $('#largePhoto').attr({ src: '', alt: '' });
+    $('#largeTitle').text('');
+  });
+</script>
+
+</body>
+</html>

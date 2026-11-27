@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>경복궁 문화유산 탐방 앱 · STEP 01</title>
+
+  <!-- jQuery Mobile 1.4.5 CSS -->
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <!-- jQuery 1.11.1 → jQuery Mobile 1.4.5 순서로 로드 -->
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <style>
+    /* ---------- 공통 색상 ---------- */
+    .ui-page { background: #f5f3ee; }
+    .ui-page .app-header.ui-header,
+    .ui-page .app-header.ui-header .ui-title {
+      background: #213d3a;
+      border-color: #213d3a;
+      color: #fff;
+      text-shadow: none;
+    }
+    .ui-page .app-header .ui-title { font-size: 1.15em; font-weight: 700; }
+    .ui-page .app-footer.ui-footer {
+      background: #e6e9e1;
+      border-color: #e6e9e1;
+      color: #2f4a46;
+      text-shadow: none;
+      margin-top: 1.5em;
+    }
+    .ui-page .app-footer h4 { font-size: .8em; font-weight: 700; }
+
+    /* ---------- 홈: 대표 이미지 ---------- */
+    .hero {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .hero svg { display: block; width: 100%; height: auto; }
+    .hero-caption {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 2.5em 1em .8em;
+      background: linear-gradient(transparent, rgba(20,35,33,.85));
+      color: #fff;
+    }
+    .hero-caption h2 { margin: 0; font-size: 1.1em; }
+    .hero-caption p  { margin: .2em 0 0; font-size: .75em; opacity: .9; }
+
+    .guide-text { color: #6b6b6b; font-size: .85em; line-height: 1.6; }
+
+    /* ---------- 홈: 메뉴 / 단계 카드 ---------- */
+    .menu.ui-listview-inset { border-radius: 10px; }
+    .menu.ui-listview-inset > li > a { font-weight: 700; color: #213d3a; padding-top: 1em; padding-bottom: 1em; }
+
+    .step-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1em;
+      margin-top: 1em;
+    }
+    .step-badge {
+      display: inline-block;
+      background: #dbe8e0;
+      color: #213d3a;
+      font-size: .7em;
+      font-weight: 700;
+      padding: .2em .7em;
+      border-radius: 999px;
+    }
+    .step-card p { color: #555; font-size: .8em; margin: 1em 0 0; }
+
+    /* ---------- 소개 화면 ---------- */
+    .intro-lead { color: #555; font-size: .85em; line-height: 1.6; }
+    .ui-collapsible-content p,
+    .ui-collapsible-content li { font-size: .9em; line-height: 1.7; }
+    .ui-collapsible-content ul { padding-left: 1.2em; margin: .4em 0; }
+    .building dt { font-weight: 700; color: #213d3a; margin-top: .7em; }
+    .building dd { margin: .2em 0 0; font-size: .9em; line-height: 1.6; color: #444; }
+  </style>
+</head>
+<body>
+
+<!-- ======================= 홈 화면 ======================= -->
+<div data-role="page" id="home">
+
+  <div data-role="header" class="app-header">
+    <h1>경복궁 문화유산 탐방 앱</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <!-- 대표 이미지 (교육용으로 그린 SVG 예시 이미지) -->
+    <div class="hero">
+      <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" aria-label="궁궐 예시 그림">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#9fc3d8"/>
+            <stop offset="1" stop-color="#cfe0e4"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="200" fill="url(#sky)"/>
+        <circle cx="330" cy="38" r="16" fill="#e8ecd6"/>
+        <ellipse cx="50" cy="40" rx="28" ry="6" fill="#e6eff3"/>
+        <ellipse cx="300" cy="62" rx="30" ry="5" fill="#e6eff3"/>
+        <!-- 산 -->
+        <path d="M0 120 L60 80 L120 115 L180 85 L260 120 L320 78 L400 110 L400 200 L0 200 Z" fill="#8fa9a6"/>
+        <!-- 나무 -->
+        <circle cx="35" cy="125" r="18" fill="#6f8f85"/>
+        <circle cx="365" cy="122" r="20" fill="#6f8f85"/>
+        <circle cx="345" cy="132" r="14" fill="#7d9b90"/>
+        <!-- 기단 -->
+        <rect x="70" y="172" width="260" height="10" fill="#8a8578"/>
+        <!-- 아래층 몸체 -->
+        <rect x="95" y="128" width="210" height="44" fill="#8c3b2a"/>
+        <g fill="#2f4a46">
+          <rect x="110" y="140" width="18" height="32"/>
+          <rect x="140" y="140" width="18" height="32"/>
+          <rect x="242" y="140" width="18" height="32"/>
+          <rect x="272" y="140" width="18" height="32"/>
+        </g>
+        <!-- 아래층 지붕 -->
+        <path d="M60 128 Q200 112 340 128 L322 118 Q200 104 78 118 Z" fill="#2c3b3a"/>
+        <rect x="80" y="118" width="240" height="6" fill="#4f8a70"/>
+        <!-- 위층 몸체 -->
+        <rect x="120" y="88" width="160" height="28" fill="#8c3b2a"/>
+        <g fill="#4f8a70">
+          <rect x="130" y="92" width="22" height="12"/>
+          <rect x="160" y="92" width="22" height="12"/>
+          <rect x="190" y="92" width="22" height="12"/>
+          <rect x="220" y="92" width="22" height="12"/>
+          <rect x="250" y="92" width="22" height="12"/>
+        </g>
+        <!-- 위층 지붕 -->
+        <path d="M85 90 Q200 60 315 90 L298 80 Q200 50 102 80 Z" fill="#2c3b3a"/>
+        <path d="M110 80 Q200 54 290 80 L200 58 Z" fill="#3d4f4d"/>
+      </svg>
+      <div class="hero-caption">
+        <h2>서울의 궁궐, 모바일로 탐방하기</h2>
+        <p>이미지·영상·오디오를 다루는 jQuery Mobile 실습</p>
+      </div>
+    </div>
+
+    <p class="guide-text">
+      목록에서 탐방할 콘텐츠를 선택하세요. 모든 시각 자료는 교육용으로 제작된 예시 이미지입니다.
+    </p>
+
+    <!-- 메뉴: 소개 화면으로 이동 -->
+    <ul data-role="listview" data-inset="true" class="menu">
+      <li><a href="#intro" data-transition="slide">궁궐 소개</a></li>
+    </ul>
+
+    <div class="step-card">
+      <span class="step-badge">STEP 01</span>
+      <p>홈 화면 · 궁궐 설명 · 접이식 정보를 직접 구현합니다.</p>
+    </div>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+
+<!-- ======================= 소개 화면 ======================= -->
+<div data-role="page" id="intro">
+
+  <div data-role="header" class="app-header">
+    <a href="#home" data-rel="back" data-icon="back" data-iconpos="notext"
+       data-transition="slide" data-direction="reverse">뒤로</a>
+    <h1>궁궐 소개</h1>
+  </div>
+
+  <div role="main" class="ui-content">
+
+    <p class="intro-lead">
+      경복궁은 조선 왕조의 첫 번째 법궁(정궁)입니다. 항목을 눌러 자세한 내용을 펼쳐 보세요.
+    </p>
+
+    <div data-role="collapsible-set" data-inset="true"
+         data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+
+      <!-- 역사 -->
+      <div data-role="collapsible" data-collapsed="false">
+        <h3>역사</h3>
+        <p>
+          경복궁은 1395년(태조 4년) 조선을 세운 태조 이성계가 한양으로 도읍을 옮기며 지은 정궁입니다.
+          '경복(景福)'은 "큰 복을 누리라"는 뜻으로, 정도전이 지은 이름입니다.
+        </p>
+        <ul>
+          <li>1395년 — 창건, 조선의 법궁이 됨</li>
+          <li>1592년 — 임진왜란으로 소실되어 오랫동안 폐허로 남음</li>
+          <li>1867년 — 고종 때 흥선대원군의 주도로 중건</li>
+          <li>일제강점기 — 많은 전각이 헐리고 조선총독부 청사가 세워짐</li>
+          <li>1990년 이후 — 복원 사업으로 옛 모습을 되찾는 중</li>
+        </ul>
+      </div>
+
+      <!-- 건축물 -->
+      <div data-role="collapsible">
+        <h3>건축물</h3>
+        <dl class="building">
+          <dt>광화문</dt>
+          <dd>경복궁의 정문으로, 세 개의 홍예문(아치형 문) 위에 문루가 올라앉아 있습니다.</dd>
+          <dt>근정전</dt>
+          <dd>국가의 큰 의식과 신하들의 조회가 열리던 정전입니다. 국보로 지정되어 있습니다.</dd>
+          <dt>사정전</dt>
+          <dd>임금이 평소 신하들과 나랏일을 의논하던 편전입니다.</dd>
+          <dt>강녕전 · 교태전</dt>
+          <dd>강녕전은 왕의 침전, 교태전은 왕비의 침전입니다.</dd>
+          <dt>경회루</dt>
+          <dd>연못 위에 세운 누각으로 외국 사신 접대와 연회에 쓰였습니다. 국보로 지정되어 있습니다.</dd>
+          <dt>향원정</dt>
+          <dd>궁궐 북쪽 연못 가운데 섬에 지은 육각형 정자입니다.</dd>
+          <dt>수정전</dt>
+          <dd>경복궁 수정전은 근정전 서쪽, 경회루 남쪽에 있는 전각으로 세종 때 집현전이 있던 자리입니다. 고종 때 다시 지었으며, 1894년 갑오개혁 때는 군국기무처가 사용했습니다. 보물로 지정되어 있습니다.</dd>
+        </dl>
+      </div>
+
+      <!-- 관람 예절 -->
+      <div data-role="collapsible">
+        <h3>관람 예절</h3>
+        <ul>
+          <li>전각의 기둥·벽·단청 등 문화유산을 손으로 만지거나 기대지 않습니다.</li>
+          <li>출입이 제한된 전각 내부나 울타리 안으로 들어가지 않습니다.</li>
+          <li>큰 소리로 떠들거나 뛰지 않고, 다른 관람객을 배려합니다.</li>
+          <li>지정된 장소 외에서는 음식을 먹지 않으며, 쓰레기는 되가져갑니다.</li>
+          <li>드론 비행·삼각대 사용 등은 현장 안내와 규정을 따릅니다.</li>
+          <li>해설사와 안내 직원의 안내에 협조합니다.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <a href="#home" class="ui-btn ui-corner-all ui-icon-home ui-btn-icon-left"
+       data-transition="slide" data-direction="reverse">홈으로 돌아가기</a>
+
+  </div>
+
+  <div data-role="footer" class="app-footer">
+    <h4>경복궁 문화유산 탐방 · jQuery Mobile 3단계 실습</h4>
+  </div>
+</div>
+
+</body>
+</html>
